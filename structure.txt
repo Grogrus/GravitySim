@@ -1,0 +1,15 @@
+GravitySim/
+  src/
+    main.cpp
+    simulation.cpp
+    object.cpp
+    physics.cpp       ← neu, dazu gleich
+    database.cpp
+    ui.cpp
+  include/
+    simulation.h
+    object.h
+    physics.h
+    database.h
+    ui.h
+  assets/             ← falls du später Texturen willst
