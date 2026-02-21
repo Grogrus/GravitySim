@@ -3,13 +3,28 @@ GravitySim/
     main.cpp
     simulation.cpp
     object.cpp
-    physics.cpp       ← neu, dazu gleich
+    physics.cpp
     database.cpp
     ui.cpp
+    glad.c            ← OpenGL Funktionsloader (aus glad.zip)
   include/
     simulation.h
     object.h
     physics.h
     database.h
     ui.h
-  assets/             ← falls du später Texturen willst
+    glad/
+      glad.h          ← GLAD Header (aus glad.zip)
+    GLFW/
+      glfw3.h         ← GLFW Header (aus glfw-3.4.bin.WIN64.zip)
+      glfw3native.h   ← GLFW Native Header
+    KHR/
+      khrplatform.h   ← Khronos Platform Header (aus glad.zip)
+  libs/
+    libglfw3.a        ← GLFW statische Library (MinGW)
+    glfw3.dll         ← GLFW Dynamic Library (wird neben .exe kopiert)
+  build/              ← automatisch generiert von CMake, nicht in Git
+  assets/             ← für spätere Texturen etc.
+  .gitignore
+  CMakeLists.txt
+  structure.txt
