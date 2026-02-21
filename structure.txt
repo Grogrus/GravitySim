@@ -18,6 +18,9 @@ GravitySim/
     GLFW/
       glfw3.h         ← GLFW Header (aus glfw-3.4.bin.WIN64.zip)
       glfw3native.h   ← GLFW Native Header
+    glm/
+      glm.hpp         ← Mathematiklibrary für OpenGL
+      ...
     KHR/
       khrplatform.h   ← Khronos Platform Header (aus glad.zip)
   libs/
