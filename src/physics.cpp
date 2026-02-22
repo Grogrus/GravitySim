@@ -65,29 +65,29 @@ void objectCollision(std::vector<Object>& objects) {
             Object& a = objects[i];
             Object& b = objects[j];
 
-            float radiusA = 10.0f + std::log(a.mass) * 2.0f;
-            float radiusB = 10.0f + std::log(b.mass) * 2.0f;
-
             glm::vec3 diff = b.position - a.position;
             float dist = glm::length(diff);
 
-            if (dist < radiusA + radiusB) {
-                // Objekte auseinanderschieben damit sie nicht überlappen
-                glm::vec3 dir = glm::normalize(diff);
-                float overlap = (radiusA + radiusB) - dist;
-                a.position -= dir * (overlap * 0.5f);
-                b.position += dir * (overlap * 0.5f);
+            if (dist < a.radius + b.radius) {
+                // Impulserhaltung: p = m*v, neues v = (m1*v1 + m2*v2) / (m1+m2)
+                glm::vec3 newVelocity = (a.mass * a.velocity + b.mass * b.velocity)
+                                       / (a.mass + b.mass);
 
-                // Velocities tauschen (elastischer Stoß, massebezogen)
-                glm::vec3 relVel = b.velocity - a.velocity;
-                float velAlongDir = glm::dot(relVel, dir);
-
-                // Nur reagieren wenn sie aufeinander zubewegen
-                if (velAlongDir > 0) continue;
-
-                float impulse = (2.0f * velAlongDir) / (a.mass + b.mass);
-                a.velocity += impulse * b.mass * dir;
-                b.velocity -= impulse * a.mass * dir;
+                // Größeres Objekt absorbiert kleineres
+                if (a.mass >= b.mass) {
+                    a.mass   += b.mass;
+                    a.radius  = 10.0f + std::log(a.mass) * 2.0f;
+                    a.velocity = newVelocity;
+                    objects.erase(objects.begin() + j);
+                    j--; // Index korrigieren nach erase
+                } else {
+                    b.mass   += a.mass;
+                    b.radius  = 10.0f + std::log(b.mass) * 2.0f;
+                    b.velocity = newVelocity;
+                    objects.erase(objects.begin() + i);
+                    i--; // Index korrigieren nach erase
+                    break; // a existiert nicht mehr
+                }
             }
         }
     }
