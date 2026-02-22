@@ -59,4 +59,38 @@ namespace Physics {
     }
 }
 
+void objectCollision(std::vector<Object>& objects) {
+    for (int i = 0; i < objects.size(); i++) {
+        for (int j = i + 1; j < objects.size(); j++) {
+            Object& a = objects[i];
+            Object& b = objects[j];
+
+            float radiusA = 10.0f + std::log(a.mass) * 2.0f;
+            float radiusB = 10.0f + std::log(b.mass) * 2.0f;
+
+            glm::vec3 diff = b.position - a.position;
+            float dist = glm::length(diff);
+
+            if (dist < radiusA + radiusB) {
+                // Objekte auseinanderschieben damit sie nicht überlappen
+                glm::vec3 dir = glm::normalize(diff);
+                float overlap = (radiusA + radiusB) - dist;
+                a.position -= dir * (overlap * 0.5f);
+                b.position += dir * (overlap * 0.5f);
+
+                // Velocities tauschen (elastischer Stoß, massebezogen)
+                glm::vec3 relVel = b.velocity - a.velocity;
+                float velAlongDir = glm::dot(relVel, dir);
+
+                // Nur reagieren wenn sie aufeinander zubewegen
+                if (velAlongDir > 0) continue;
+
+                float impulse = (2.0f * velAlongDir) / (a.mass + b.mass);
+                a.velocity += impulse * b.mass * dir;
+                b.velocity -= impulse * a.mass * dir;
+            }
+        }
+    }
+}
+
 }
