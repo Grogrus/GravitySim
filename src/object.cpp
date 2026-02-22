@@ -12,19 +12,31 @@ Object::Object(const std::string& name,
                glm::vec3 position,
                glm::vec3 velocity,
                glm::vec3 color)
-    : name(name), mass(mass), radius(10.0f + std::log(mass) * 2.0f),
-      position(position), velocity(velocity), color(color)
+    : name(name), mass(mass), position(position), velocity(velocity), color(color)
 {}
 
 
 void Object::update(float dt) {
+    trail.push_back(position);
+    if (trail.size() > TRAIL_LENGTH) {
+        trail.pop_front();
+    }
     position += velocity * dt;
 }
 
 // Einfache Kreis-Rendering-Funktion
 void Object::draw() const {
-    const int segments = 64;
+    // Trail zeichnen
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i < trail.size(); i++) {
+        float alpha = (float)i / trail.size(); // 0 = alt/transparent, 1 = neu
+        glColor4f(color.r, color.g, color.b, alpha);
+        glVertex2f(trail[i].x, trail[i].y);
+    }
+    glEnd();
 
+    // Objekt zeichnen
+    const int segments = 64;
     glColor3f(color.r, color.g, color.b);
     glBegin(GL_TRIANGLE_FAN);
         glVertex2f(position.x, position.y);
