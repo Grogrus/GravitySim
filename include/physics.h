@@ -3,7 +3,7 @@
 #include "object.h"
 
 namespace Physics {
-    const float G = 6.674e-2f;  // viel größer als real, aber sieht besser aus
+    const float G = 1.0f;  // viel größer als real, aber sieht besser aus
 
     void update(std::vector<Object>& objects, float dt);
 

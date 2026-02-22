@@ -47,4 +47,17 @@ void Object::draw() const {
                        position.y + radius * std::sin(angle));
         }
     glEnd();
+
+    // Kraftvektor zeichnen
+    float forceLen = glm::length(force);
+    if (forceLen > 0.01f) {
+        glm::vec3 forceDir = glm::normalize(force);
+        float scale = 50.0f / forceLen * forceLen; // Länge skaliert
+        glColor4f(1.0f, 1.0f, 0.0f, 0.8f); // gelb
+        glBegin(GL_LINES);
+            glVertex2f(position.x, position.y);
+            glVertex2f(position.x + forceDir.x * scale,
+                    position.y + forceDir.y * scale);
+        glEnd();
+    }
 }
