@@ -12,7 +12,8 @@ Object::Object(const std::string& name,
                glm::vec3 position,
                glm::vec3 velocity,
                glm::vec3 color)
-    : name(name), mass(mass), position(position), velocity(velocity), color(color)
+    : name(name), mass(mass), radius(10.0f + std::log(mass) * 2.0f),
+      position(position), velocity(velocity), color(color)
 {}
 
 
@@ -23,11 +24,10 @@ void Object::update(float dt) {
 // Einfache Kreis-Rendering-Funktion
 void Object::draw() const {
     const int segments = 64;
-    float radius = 10.0f + std::log(mass) * 2.0f; // Größe basierend auf Masse
 
     glColor3f(color.r, color.g, color.b);
     glBegin(GL_TRIANGLE_FAN);
-        glVertex2f(position.x, position.y); // Mittelpunkt
+        glVertex2f(position.x, position.y);
         for (int i = 0; i <= segments; i++) {
             float angle = 2.0f * M_PI * i / segments;
             glVertex2f(position.x + radius * std::cos(angle),
