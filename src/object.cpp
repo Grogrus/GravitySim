@@ -12,7 +12,8 @@ Object::Object(const std::string& name,
                glm::vec3 position,
                glm::vec3 velocity,
                glm::vec3 color)
-    : name(name), mass(mass), position(position), velocity(velocity), color(color)
+    : name(name), mass(mass), radius(10.0f + std::log(mass) * 2.0f),
+      position(position), velocity(velocity), color(color)
 {}
 
 
