@@ -13,7 +13,8 @@ int main() {
     sim.addObject(Object("H", 600.0f,  glm::vec3(100, 550, 0), glm::vec3(15, -8, 0),   glm::vec3(1.0f, 0.6f, 0.2f)));
     sim.addObject(Object("I", 250.0f,  glm::vec3(700, 400, 0), glm::vec3(-5, -12, 0),  glm::vec3(0.6f, 0.2f, 1.0f)));
     sim.addObject(Object("J", 350.0f,  glm::vec3(450, 100, 0), glm::vec3(-8, 18, 0),   glm::vec3(1.0f, 1.0f, 0.6f)));
-
+    
+    // Startet die Simulation
     sim.start();
     return 0;
 }

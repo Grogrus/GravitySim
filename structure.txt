@@ -10,7 +10,7 @@ GravitySim/
   include/
     simulation.h
     object.h
-    physics.h
+    physics.h         ← Physikalische Gesetze
     database.h
     ui.h
     glad/
