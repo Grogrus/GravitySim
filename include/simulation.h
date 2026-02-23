@@ -5,13 +5,16 @@
 #include "object.h"
 #include "physics.h"
 
+// Verwaltet das Fenster, die Game-Loop und alle Objekte
 class Simulation {
+
+    float timeScale = 1.0f; // 1.0 = Echtzeit, >1.0 = schneller, <1.0 = langsamer
 public:
     Simulation(float width, float height);
     ~Simulation();
 
     void start();
-    void addObject(Object obj);
+    void addObject(const Object& obj);
 
 private:
     float width, height;

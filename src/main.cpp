@@ -1,20 +1,22 @@
 #include "simulation.h"
 
-int main() {
-    Simulation sim(800.0f, 600.0f);
+/**
+ * Hauptfunktion, die die Simulation initialisiert, Objekte hinzufügt und die Simulation startet.
+ * @return int Rückgabewert des Programms, 0 bei erfolgreichem Abschluss
+ */
 
-    sim.addObject(Object("A", 5000.0f, glm::vec3(400, 300, 0), glm::vec3(0, 5, 0),     glm::vec3(0.2f, 0.5f, 1.0f)));
-    sim.addObject(Object("B", 500.0f,  glm::vec3(550, 300, 0), glm::vec3(0, -20, 0),   glm::vec3(0.8f, 0.8f, 0.8f)));
-    sim.addObject(Object("C", 1000.0f, glm::vec3(200, 200, 0), glm::vec3(10, 8, 0),    glm::vec3(1.0f, 0.4f, 0.2f)));
-    sim.addObject(Object("D", 800.0f,  glm::vec3(600, 500, 0), glm::vec3(-8, 5, 0),    glm::vec3(0.4f, 1.0f, 0.4f)));
-    sim.addObject(Object("E", 300.0f,  glm::vec3(300, 500, 0), glm::vec3(6, -10, 0),   glm::vec3(1.0f, 1.0f, 0.2f)));
-    sim.addObject(Object("F", 200.0f,  glm::vec3(150, 400, 0), glm::vec3(12, -5, 0),   glm::vec3(1.0f, 0.2f, 0.8f)));
-    sim.addObject(Object("G", 400.0f,  glm::vec3(650, 150, 0), glm::vec3(-10, 15, 0),  glm::vec3(0.2f, 1.0f, 1.0f)));
-    sim.addObject(Object("H", 600.0f,  glm::vec3(100, 550, 0), glm::vec3(15, -8, 0),   glm::vec3(1.0f, 0.6f, 0.2f)));
-    sim.addObject(Object("I", 250.0f,  glm::vec3(700, 400, 0), glm::vec3(-5, -12, 0),  glm::vec3(0.6f, 0.2f, 1.0f)));
-    sim.addObject(Object("J", 350.0f,  glm::vec3(450, 100, 0), glm::vec3(-8, 18, 0),   glm::vec3(1.0f, 1.0f, 0.6f)));
-    
-    // Startet die Simulation
+int main() {
+    Simulation sim(1400.0f, 1000.0f);
+
+    float cx = 700.0f, cy = 500.0f;
+
+    sim.addObject(Object("Sonne",   1989000.0f, glm::vec3(cx, cy, 0),        glm::vec3(0, 0, 0),      glm::vec3(1.0f, 0.9f, 0.2f)));
+    sim.addObject(Object("Merkur",  0.33f,      glm::vec3(cx+58,  cy, 0),    glm::vec3(0, -15.13f, 0), glm::vec3(0.6f, 0.6f, 0.6f)));
+    sim.addObject(Object("Venus",   4.87f,      glm::vec3(cx+108, cy, 0),    glm::vec3(0, -11.09f, 0), glm::vec3(0.9f, 0.7f, 0.3f)));
+    sim.addObject(Object("Erde",    5.97f,      glm::vec3(cx+150, cy, 0),    glm::vec3(0,  -9.41f, 0), glm::vec3(0.2f, 0.5f, 1.0f)));
+    sim.addObject(Object("Mars",    0.642f,     glm::vec3(cx+228, cy, 0),    glm::vec3(0,  -7.63f, 0), glm::vec3(0.8f, 0.3f, 0.1f)));
+    sim.addObject(Object("Jupiter", 1898.0f,    glm::vec3(cx+400, cy, 0),    glm::vec3(0,  -5.76f, 0), glm::vec3(0.8f, 0.6f, 0.4f)));
+
     sim.start();
     return 0;
 }

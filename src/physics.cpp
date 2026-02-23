@@ -3,94 +3,82 @@
 
 namespace Physics {
 
-    // Berechnet die Gravitationskräfte zwischen allen Objekten und aktualisiert deren Positionen
     void update(std::vector<Object>& objects, float dt) {
     // Kräfte zurücksetzen
-    for (Object& obj : objects) {
+    for (Object& obj : objects)
         obj.force = glm::vec3(0.0f);
-    }
 
+    // Kräfte berechnen
     for (int i = 0; i < objects.size(); i++) {
         for (int j = i + 1; j < objects.size(); j++) {
             Object& a = objects[i];
             Object& b = objects[j];
-
             glm::vec3 diff = b.position - a.position;
             float dist = glm::length(diff);
             if (dist < 1.0f) continue;
-
             float force = G * a.mass * b.mass / (dist * dist);
             glm::vec3 dir = glm::normalize(diff);
-
             a.force += dir * force;
             b.force -= dir * force;
-
-            a.velocity += dir * (force / a.mass) * dt;
-            b.velocity -= dir * (force / b.mass) * dt;
         }
     }
 
+    // Leapfrog: erst alle velocities, dann alle positionen
     for (Object& obj : objects) {
+        obj.velocity += (obj.force / obj.mass) * dt;
         obj.update(dt);
     }
 }
 
-    //Kleine Funktion, um Kollisionen mit den Bildschirmrändern zu behandeln
     void borderCollision(std::vector<Object>& objects, float width, float height) {
-    for (Object& obj : objects) {
-        float radius = 10.0f + std::log(obj.mass) * 2.0f;
-
-        if (obj.position.x - radius < 0.0f) {
-            obj.position.x = radius;
-            obj.velocity.x *= -1.0f;
-        }
-        if (obj.position.x + radius > width) {
-            obj.position.x = width - radius;
-            obj.velocity.x *= -1.0f;
-        }
-        if (obj.position.y - radius < 0.0f) {
-            obj.position.y = radius;
-            obj.velocity.y *= -1.0f;
-        }
-        if (obj.position.y + radius > height) {
-            obj.position.y = height - radius;
-            obj.velocity.y *= -1.0f;
+        for (Object& obj : objects) {
+            if (obj.position.x - obj.radius < 0.0f) {
+                obj.position.x = obj.radius;
+                obj.velocity.x *= -1.0f;
+            }
+            if (obj.position.x + obj.radius > width) {
+                obj.position.x = width - obj.radius;
+                obj.velocity.x *= -1.0f;
+            }
+            if (obj.position.y - obj.radius < 0.0f) {
+                obj.position.y = obj.radius;
+                obj.velocity.y *= -1.0f;
+            }
+            if (obj.position.y + obj.radius > height) {
+                obj.position.y = height - obj.radius;
+                obj.velocity.y *= -1.0f;
+            }
         }
     }
-}
 
-void objectCollision(std::vector<Object>& objects) {
-    for (int i = 0; i < objects.size(); i++) {
-        for (int j = i + 1; j < objects.size(); j++) {
-            Object& a = objects[i];
-            Object& b = objects[j];
+    void objectCollision(std::vector<Object>& objects) {
+        for (int i = 0; i < objects.size(); i++) {
+            for (int j = i + 1; j < objects.size(); j++) {
+                Object& a = objects[i];
+                Object& b = objects[j];
 
-            glm::vec3 diff = b.position - a.position;
-            float dist = glm::length(diff);
+                float dist = glm::length(b.position - a.position);
+                if (dist >= a.radius + b.radius) continue;
 
-            if (dist < a.radius + b.radius) {
-                // Impulserhaltung: p = m*v, neues v = (m1*v1 + m2*v2) / (m1+m2)
-                glm::vec3 newVelocity = (a.mass * a.velocity + b.mass * b.velocity)
-                                       / (a.mass + b.mass);
+                // Impulserhaltung: v_neu = (m1*v1 + m2*v2) / (m1+m2)
+                glm::vec3 newVel = (a.mass * a.velocity + b.mass * b.velocity)
+                                 / (a.mass + b.mass);
 
-                // Größeres Objekt absorbiert kleineres
                 if (a.mass >= b.mass) {
-                    a.mass   += b.mass;
-                    a.radius  = 10.0f + std::log(a.mass) * 2.0f;
-                    a.velocity = newVelocity;
+                    a.mass    += b.mass;
+                    a.radius   = RADIUS_BASE + std::log(a.mass) * RADIUS_SCALE;
+                    a.velocity = newVel;
                     objects.erase(objects.begin() + j);
-                    j--; // Index korrigieren nach erase
+                    j--;
                 } else {
-                    b.mass   += a.mass;
-                    b.radius  = 10.0f + std::log(b.mass) * 2.0f;
-                    b.velocity = newVelocity;
+                    b.mass    += a.mass;
+                    b.radius   = RADIUS_BASE + std::log(b.mass) * RADIUS_SCALE;
+                    b.velocity = newVel;
                     objects.erase(objects.begin() + i);
-                    i--; // Index korrigieren nach erase
-                    break; // a existiert nicht mehr
+                    i--;
+                    break;
                 }
             }
         }
     }
-}
-
 }
