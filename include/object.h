@@ -22,7 +22,7 @@ struct Object {
     std::deque<glm::vec3> trail;
     float trailTimer = 0.0f;  // ← Member der Struct, nicht global
 
-    static const int   TRAIL_LENGTH    = 1000;
+    static const int   TRAIL_LENGTH    = 500;
     static constexpr float TRAIL_INTERVAL = 0.05f; // alle 50ms ein Punkt
 
     Object(const std::string& name, float mass, glm::vec3 position,
