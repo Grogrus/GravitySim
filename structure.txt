@@ -7,6 +7,9 @@ GravitySim/
     database.cpp
     ui.cpp
     glad.c            ← OpenGL Funktionsloader (aus glad.zip)
+    imgui/
+      imgui_draw.cpp 
+      ...
   include/
     simulation.h
     object.h
@@ -23,11 +26,13 @@ GravitySim/
       ...
     KHR/
       khrplatform.h   ← Khronos Platform Header (aus glad.zip)
+    imgui/
+      imconfig.h
+      ...
   libs/
     libglfw3.a        ← GLFW statische Library (MinGW)
     glfw3.dll         ← GLFW Dynamic Library (wird neben .exe kopiert)
   build/              ← automatisch generiert von CMake, nicht in Git
-  assets/             ← für spätere Texturen etc.
   .gitignore
   CMakeLists.txt
   structure.txt

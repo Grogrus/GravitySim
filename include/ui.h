@@ -17,5 +17,5 @@ private:
     void drawControlPanel();
     void drawObjectTable();
     void drawAddObject();
-    void drawSimControls();  // ← neu
+    void drawSimControls();  
 };

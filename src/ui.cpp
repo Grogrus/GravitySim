@@ -10,7 +10,7 @@ void UI::draw() {
 
 void UI::drawControlPanel() {
     ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(420, 600), ImGuiCond_Once);
     ImGui::Begin("Control Panel");
 
     drawSimControls();
@@ -25,7 +25,6 @@ void UI::drawControlPanel() {
 void UI::drawSimControls() {
     ImGui::Text("Simulation");
 
-    // Pause/Resume
     if (paused) {
         if (ImGui::Button("Resume")) paused = false;
     } else {
@@ -34,12 +33,9 @@ void UI::drawSimControls() {
 
     ImGui::SameLine();
 
-    // Reset
-    if (ImGui::Button("Reset")) {
+    if (ImGui::Button("Reset"))
         objects.clear();
-    }
 
-    // TimeScale Slider
     ImGui::SliderFloat("Zeitskala", &timeScale, 1.0f, 1000.0f, "%.0fx");
 }
 
@@ -50,10 +46,10 @@ void UI::drawObjectTable() {
         ImGui::TableSetupColumn("Name");
         ImGui::TableSetupColumn("Masse");
         ImGui::TableSetupColumn("Geschw.");
-        ImGui::TableSetupColumn("##del");  // Spalte für Löschen-Button
+        ImGui::TableSetupColumn("##del");
         ImGui::TableHeadersRow();
 
-        for (int i = 0; i < objects.size(); i++) {
+        for (int i = 0; i < (int)objects.size(); i++) {
             Object& obj = objects[i];
             ImGui::TableNextRow();
 
@@ -68,11 +64,11 @@ void UI::drawObjectTable() {
             ImGui::Text("%.2f", glm::length(obj.velocity));
 
             ImGui::TableSetColumnIndex(3);
-            ImGui::PushID(i);  // wichtig: sonst haben alle Buttons gleiche ID
+            ImGui::PushID(i);
             if (ImGui::SmallButton("X")) {
                 objects.erase(objects.begin() + i);
                 ImGui::PopID();
-                break;  // nach erase nicht weiterlaufen
+                break;
             }
             ImGui::PopID();
         }
@@ -82,20 +78,24 @@ void UI::drawObjectTable() {
 
 void UI::drawAddObject() {
     ImGui::Text("Neues Objekt:");
+    ImGui::TextDisabled("1 px = 1 Mio km  |  Erde = 5.97  |  Sonne = 1989000");
 
-    static char name[64] = "";
-    static float mass      = 100.0f;
-    static float pos[2]   = {700.0f, 500.0f};
-    static float vel[2]   = {0.0f, 0.0f};
-    static float color[3] = {1.0f, 1.0f, 1.0f};
+    static char  name[64]  = "";
+    static float mass      = 5.97f;
+    static float pos[2]    = {700.0f, 500.0f};
+    static float vel[2]    = {0.0f, 0.0f};
+    static float color[3]  = {1.0f, 1.0f, 1.0f};
 
-    ImGui::InputText("Name",     name, sizeof(name));
-    ImGui::SliderFloat("Masse",  &mass, 0.1f, 10000.0f);
-    ImGui::InputFloat2("Position", pos);
-    ImGui::InputFloat2("Velocity", vel);
-    ImGui::ColorEdit3("Farbe",   color);
+    ImGui::InputText("Name",                    name, sizeof(name));
+    ImGui::InputFloat("Masse (x10^24 kg)",      &mass);
+    ImGui::InputFloat2("Position X/Y (px)",     pos);
+    ImGui::InputFloat2("Velocity X/Y (px/s)",   vel);
+    //ImGui::TextDisabled("  X: links(-) / rechts(+)");
+    //ImGui::TextDisabled("  Y: oben(-)  / unten(+)");
+    //ImGui::TextDisabled("  Orbitalgeschw. v = sqrt(G * M / r)");
+    ImGui::ColorEdit3("Farbe", color);
 
-    if (ImGui::Button("Hinzufügen")) {
+    if (ImGui::Button("Hinzufuegen")) {
         objects.push_back(Object(
             std::string(name),
             mass,
