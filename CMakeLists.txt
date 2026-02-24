@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Include-Verzeichnisse (glad, glfw, eigene headers)
 include_directories(include)
+include_directories(include/imgui)
 
 add_executable(GravitySim
     src/main.cpp
@@ -14,6 +15,12 @@ add_executable(GravitySim
     src/database.cpp
     src/ui.cpp
     src/glad.c
+    src/imgui/imgui.cpp
+    src/imgui/imgui_draw.cpp
+    src/imgui/imgui_tables.cpp
+    src/imgui/imgui_widgets.cpp
+    src/imgui/imgui_impl_glfw.cpp
+    src/imgui/imgui_impl_opengl3.cpp
 )
 
 # Linker: GLFW (statisch), OpenGL und GDI (Windows)

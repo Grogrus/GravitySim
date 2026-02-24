@@ -1,7 +1,12 @@
 #include "simulation.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include <stdexcept>
 
-Simulation::Simulation(float width, float height) : width(width), height(height) {
+Simulation::Simulation(float width, float height)
+    : width(width), height(height), ui(objects, paused, timeScale) {
+
     if (!glfwInit())
         throw std::runtime_error("Failed to initialize GLFW");
 
@@ -29,9 +34,22 @@ Simulation::Simulation(float width, float height) : width(width), height(height)
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // ImGui initialisieren
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 }
 
 Simulation::~Simulation() {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     glfwDestroyWindow(window);
     glfwTerminate();
 }
@@ -41,7 +59,7 @@ void Simulation::addObject(const Object& obj) {
 }
 
 void Simulation::update(float dt) {
-    const int substeps = 10;          // 10 kleinere Schritte pro Frame
+    const int substeps = 10;
     float subDt = dt / substeps;
     for (int i = 0; i < substeps; i++) {
         Physics::update(objects, subDt);
@@ -57,15 +75,26 @@ void Simulation::draw() const {
 void Simulation::start() {
     double lastTime = glfwGetTime();
     while (!glfwWindowShouldClose(window)) {
-        
         double currentTime = glfwGetTime();
         float dt = static_cast<float>(currentTime - lastTime) * timeScale;
         lastTime = currentTime;
 
-        
+        if (!paused)
         update(dt);
+
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
+
+        // ImGui Frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ui.draw();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
