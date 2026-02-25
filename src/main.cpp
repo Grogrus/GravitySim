@@ -2,7 +2,7 @@
 #include <array>
 
 int main() {
-    const float CENTER_X = 700.0f;
+    const float CENTER_X = 900.0f;
     const float CENTER_Y = 500.0f;
     const int   PLANET_COUNT = 6;
 
@@ -22,7 +22,7 @@ int main() {
         glm::vec3(CENTER_X + 108, CENTER_Y, 0),  // Venus
         glm::vec3(CENTER_X + 150, CENTER_Y, 0),  // Erde
         glm::vec3(CENTER_X + 228, CENTER_Y, 0),  // Mars
-        glm::vec3(CENTER_X + 400, CENTER_Y, 0)   // Jupiter
+        glm::vec3(CENTER_X + 778, CENTER_Y, 0)   // Jupiter
     };
 
     std::array<glm::vec3, PLANET_COUNT> velocities = {
@@ -31,7 +31,7 @@ int main() {
         glm::vec3(0, -11.09f, 0), // Venus
         glm::vec3(0,  -9.41f, 0), // Erde
         glm::vec3(0,  -7.63f, 0), // Mars
-        glm::vec3(0,  -5.76f, 0)  // Jupiter
+        glm::vec3(0,  -4.13f, 0)  // Jupiter
     };
 
     std::array<glm::vec3, PLANET_COUNT> colors = {
@@ -43,7 +43,7 @@ int main() {
         glm::vec3(0.8f, 0.6f, 0.4f)  // Jupiter
     };
 
-    Simulation sim(1400.0f, 1000.0f);
+    Simulation sim(1800.0f, 1000.0f);
 
     for (int i = 0; i < PLANET_COUNT; i++) {
         sim.addObject(Object(names[i], masses[i], positions[i], velocities[i], colors[i]));
