@@ -6,33 +6,33 @@ GravitySim/
     physics.cpp
     database.cpp
     ui.cpp
-    glad.c            ← OpenGL Funktionsloader (aus glad.zip)
+    glad.c            <- OpenGL Funktionsloader 
     imgui/
       imgui_draw.cpp 
       ...
   include/
     simulation.h
     object.h
-    physics.h         ← Physikalische Gesetze
+    physics.h         <- Physikalische Gesetze
     database.h
     ui.h
     glad/
-      glad.h          ← GLAD Header (aus glad.zip)
+      glad.h          <- GLAD Header (aus glad.zip)
     GLFW/
-      glfw3.h         ← GLFW Header (aus glfw-3.4.bin.WIN64.zip)
-      glfw3native.h   ← GLFW Native Header
+      glfw3.h         <- GLFW Header (aus glfw-3.4.bin.WIN64.zip)
+      glfw3native.h   <- GLFW Native Header
     glm/
-      glm.hpp         ← Mathematiklibrary für OpenGL
+      glm.hpp         <- Mathematiklibrary für OpenGL
       ...
     KHR/
-      khrplatform.h   ← Khronos Platform Header (aus glad.zip)
+      khrplatform.h   <- Khronos Platform Header (aus glad.zip)
     imgui/
       imconfig.h
       ...
   libs/
-    libglfw3.a        ← GLFW statische Library (MinGW)
-    glfw3.dll         ← GLFW Dynamic Library (wird neben .exe kopiert)
-  build/              ← automatisch generiert von CMake, nicht in Git
+    libglfw3.a        <- GLFW statische Library (MinGW)
+    glfw3.dll         <- GLFW Dynamic Library (wird neben .exe kopiert)
+  build/              <- automatisch generiert von CMake, nicht in Git
   .gitignore
   CMakeLists.txt
   structure.txt
