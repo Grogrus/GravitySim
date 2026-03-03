@@ -1,9 +1,20 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(GravitySim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Include-Verzeichnisse (glad, glfw, eigene headers)
+# GLFW automatisch herunterladen und bauen
+include(FetchContent)
+FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG        3.4
+)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(glfw)
+
 include_directories(include)
 include_directories(include/imgui)
 
@@ -23,16 +34,8 @@ add_executable(GravitySim
     src/imgui/imgui_impl_opengl3.cpp
 )
 
-# Linker: GLFW (statisch), OpenGL und GDI (Windows)
 target_link_libraries(GravitySim
-    ${CMAKE_SOURCE_DIR}/libs/libglfw3.a
+    glfw           
     opengl32
     gdi32
-)
-
-# glfw3.dll automatisch neben die .exe kopieren
-add_custom_command(TARGET GravitySim POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_SOURCE_DIR}/libs/glfw3.dll"
-        $<TARGET_FILE_DIR:GravitySim>
 )
