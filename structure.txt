@@ -36,3 +36,32 @@ GravitySim/
   .gitignore
   CMakeLists.txt
   structure.txt
+
+
+
+  Plan:
+
+  Phase 1:
+  Objekte implementieren und erste Ausgabe über simulation
+
+  Phase2:
+  2d implementieren mit OpenGL
+  Physikalische Gesetze einbauen
+
+  Phase3:
+  ui implementieren mit imgui
+  Grundfunktionen der User implementieren
+
+  Phase3:
+  Shortcuts für Erschaffung von Objekten machen
+  Infos des Objekts mit Hovern anzeigen
+
+
+  Phase4:
+  lokale Datenbank implementieren
+  Speicherung der Erschaffenen Objekte speicherbar machen
+  Abfrage zur Speicherung
+  Testdaten aus main in datenbank als default objekte Erschaffenen
+
+  PhaseX:
+  in 3d konvertieren
